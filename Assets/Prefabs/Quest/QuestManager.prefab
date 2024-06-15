@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1580924822841043864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4471078542459146840}
+  - component: {fileID: 5715628465736899287}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4471078542459146840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580924822841043864}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4066787, y: -1.3788556, z: -9.952156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5715628465736899287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580924822841043864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 634a7695cc9899d4c8a78d20f7d62772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quests:
+  - questID: 1
+    questDescription: "\u6D4B\u8BD5\u4EFB\u52A11"
+    timeDescription: "3\u67081\u65E5  \u65E9\u6668"
+    characterPrefabs:
+    - {fileID: 882648259968261951, guid: 9ec044ff59b284d4284dbff4c6eb544c, type: 3}
+    - {fileID: 4132515500113093795, guid: ec2760cea9f0c30469a8b1ac88c2ca4e, type: 3}
+    - {fileID: 8805451106350523616, guid: 7186bf702a3620044bd4d1d214c23063, type: 3}
+    spawnPositions:
+    - {x: 0.4260105, y: -5.306197, z: 0}
+    - {x: 0.44233227, y: -4.418067, z: 0}
+    - {x: 5.4502373, y: -0.16845739, z: 0}
+    deleteCharacterPrefabs:
+    - {fileID: 0}
+    dialogTriggers:
+    - {fileID: 0}
+  - questID: 2
+    questDescription: "\u6D4B\u8BD5\u4EFB\u52A12"
+    timeDescription: "3\u67081\u65E5  \u4E0B\u5348"
+    characterPrefabs: []
+    spawnPositions: []
+    deleteCharacterPrefabs: []
+    dialogTriggers:
+    - {fileID: 0}
+  - questID: 3
+    questDescription: "\u6D4B\u8BD5\u4EFB\u52A13"
+    timeDescription: "3\u67081\u65E5  \u591C\u665A"
+    characterPrefabs:
+    - {fileID: 8805451106350523616, guid: 7186bf702a3620044bd4d1d214c23063, type: 3}
+    - {fileID: 3038686028865264349, guid: cc3a79dadc7104946a52cddb387c3cf7, type: 3}
+    spawnPositions: []
+    deleteCharacterPrefabs: []
+    dialogTriggers: []
+  questDisplay: {fileID: 0}
+  timeDisplay: {fileID: 0}

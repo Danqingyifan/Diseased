@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4746e94de574fd743a99c769df8e9a1a, type: 3}
+  m_Name: Chapter01_TalkingAboutMusic
+  m_EditorClassIdentifier: 
+  npcName: "\u7504\u7F8E\u4E3D"
+  portraits:
+  - {fileID: 21300000, guid: 03ca4f93026228549a8dac829ac52cf8, type: 3}
+  - {fileID: 21300000, guid: 7f94c97bdfa32714ebc9fa007aef328d, type: 3}
+  - {fileID: 21300000, guid: 7e7ccac7cea4d4748847f2c16f243257, type: 3}
+  - {fileID: 21300000, guid: 433f05e4af6481f45a38832a60fd3f84, type: 3}
+  sentences:
+  - "\u4F60\u559C\u6B22\u5565\u97F3\u4E50"
+  - "\u4F60\u77E5\u9053\u7684\uFF0C\u662Frap"
+  - "\u90A3\u6211\u731C\u4F60\u7684\u5B66\u5386\u662F\u4E2D\u4E13\n"
+  - nima

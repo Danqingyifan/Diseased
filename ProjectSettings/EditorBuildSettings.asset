@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu/GamebeginMenu.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Level/Front yard.unity
+    guid: 60d0ffb34bcbe6a4b885a7386deaafbf
+  - enabled: 1
+    path: Assets/Scenes/Level/Hall.unity
+    guid: d24df5e4d7880424d91d0e8942ed39d1
+  - enabled: 1
     path: Assets/Scenes/Level/Recovery.unity
     guid: 37a60bc71145c5b4289281c165545973
   - enabled: 1
@@ -24,10 +33,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Level/Dormitory.unity
     guid: d06a5fb77ddccac4bbb88356c96585ca
   - enabled: 1
-    path: Assets/Scenes/Level/Hall.unity
-    guid: d24df5e4d7880424d91d0e8942ed39d1
+    path: Assets/Scenes/Level/Canteen.unity
+    guid: 3601648a00f1ed74f93d0652706b5bb8
   - enabled: 1
-    path: Assets/Scenes/Level/Front yard.unity
-    guid: 60d0ffb34bcbe6a4b885a7386deaafbf
+    path: Assets/Scenes/Level/Electrotherapy Room.unity
+    guid: 73aaa9c7ee10649469b71417a630b606
+  - enabled: 1
+    path: Assets/Scenes/Level/Infirmary.unity
+    guid: ec74ac155ea40ae468c6f28ff78941ee
+  - enabled: 1
+    path: Assets/Scenes/Level/Storage Room.unity
+    guid: c556ac8dcd28b0c498a5fb70b3a23d38
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 361a2028398183c459dc0ee014742e21, type: 2}

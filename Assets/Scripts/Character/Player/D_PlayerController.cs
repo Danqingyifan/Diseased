@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
+//using UnityStandardAssets.CrossPlatformInput;
+using Cinemachine;
 
 //Direction Enum
 [Flags]
@@ -17,24 +19,24 @@ public enum Orientation
 
 public class D_PlayerController : MonoBehaviour
 {
-    //Make instance of this script to be able reference from other scripts!
     public static D_PlayerController instance;
 
-    [HideInInspector] public Orientation orientation;
-    [HideInInspector] public Rigidbody2D rigidBody;
-    [HideInInspector] public Animator animator;
-    [HideInInspector] public SpriteRenderer spriteRenderer;
-    [HideInInspector] public BoxCollider2D moveCollider;
+    private Orientation _orientation;
+    private Rigidbody2D _rigidBody;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
+    private BoxCollider2D _moveCollider;
 
     [SerializeField] private float _moveSpeed = 5.0f;
     private bool _canMove = true;
+    public string areaTransitionName; // Add this property to track the transition name
 
     //for rigidBody.Cast
     private Vector2 _movementInput;
     private ContactFilter2D _movementFilter = new ContactFilter2D();
     private List<RaycastHit2D> _castCollisions = new List<RaycastHit2D>();
-    [Tooltip("The offset applying to the cast to prevent the player from getting stuck on walls")]
-    [SerializeField] private float _collsionOffset = 0.1f;
+
+    private float _collsionOffset = 0.1f;
 
     //for interact Raycast
     [SerializeField] private LayerMask layerMask;
@@ -50,17 +52,28 @@ public class D_PlayerController : MonoBehaviour
     };
 
     //Interact Distance
-    [SerializeField]
-    private float _interactDistance = 1.0f;
+    [SerializeField] private float _interactDistance = 1.0f;
 
     // Awake is called when the script instance is being loaded, before Start
     // Use this for initialization
     void Awake()
     {
-        rigidBody = this.gameObject.GetComponent<Rigidbody2D>();
-        animator = this.gameObject.GetComponent<Animator>();
-        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        moveCollider = this.gameObject.GetComponent<BoxCollider2D>();
+        if (instance == null)
+        {
+            instance = this;
+        } else
+        {
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        _rigidBody = this.gameObject.GetComponent<Rigidbody2D>();
+        _animator = this.gameObject.GetComponent<Animator>();
+        _spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        _moveCollider = this.gameObject.GetComponent<BoxCollider2D>();
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -68,6 +81,7 @@ public class D_PlayerController : MonoBehaviour
     {
 
     }
+
 
     private void FixedUpdate()
     {
@@ -79,10 +93,13 @@ public class D_PlayerController : MonoBehaviour
             {
                 success = TryMove(new Vector2(_movementInput.x, 0));
             }
+
             if (!success && Mathf.Abs(_movementInput.y) > 0)
             {
                 success = TryMove(new Vector2(0, _movementInput.y));
             }
+
+            _animator.SetFloat("Speed", success ? _movementInput.sqrMagnitude : 0);
         }
     }
 
@@ -90,23 +107,36 @@ public class D_PlayerController : MonoBehaviour
     void OnMove(InputValue inputValue)
     {
         _movementInput = inputValue.Get<Vector2>();
+
+        _animator.SetFloat("Horizontal", _movementInput.x);
+        _animator.SetFloat("Vertical", _movementInput.y);
+
         //Decide the Orientation of the player
         if (_movementInput.x > 0)
         {
-            orientation = Orientation.Right;
+            _orientation = Orientation.Right;
         }
         else if (_movementInput.x < 0)
         {
-            orientation = Orientation.Left;
+            _orientation = Orientation.Left;
         }
         else if (_movementInput.y > 0)
         {
-            orientation = Orientation.Up;
+            _orientation = Orientation.Up;
         }
         else if (_movementInput.y < 0)
         {
-            orientation = Orientation.Down;
+            _orientation = Orientation.Down;
         }
+
+        //kind of weird
+        _animator.SetFloat("Orientation", (float)_orientation / 3);
+
+        if (_movementInput == Vector2.zero)
+        {
+            _animator.SetFloat("Speed", 0);
+        }
+
     }
 
     void OnInteract()
@@ -117,22 +147,24 @@ public class D_PlayerController : MonoBehaviour
         contactFilter.useTriggers = true;
 
         //check if the player is in front of the interactable object
-        RaycastHit2D[] hits = Physics2D.RaycastAll(spriteRenderer.transform.position, OrientationMap[orientation], _interactDistance, layerMask);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_spriteRenderer.transform.position, OrientationMap[_orientation],
+            _interactDistance, layerMask);
 
         foreach (RaycastHit2D hit in hits)
         {
-            GameObject target = hit.collider.gameObject;
             // ignore Collider2D of the player
-            if (hit.collider != null && hit.collider != moveCollider)
+            if (hit.collider != null && hit.collider != _moveCollider)
             {
-                D_DialogTrigger dialogTrigger = target.GetComponent<D_DialogTrigger>();
-                if (dialogTrigger != null)
+                GameObject target = hit.collider.gameObject;
+
+                // if for Trigger Dialog
+                if (target.GetComponent<D_DialogTrigger>() != null)
                 {
-                    dialogTrigger.TriggerDialogue();
+                    target.GetComponent<D_DialogTrigger>().TriggerDialog();
                 }
+
                 break;
             }
-
         }
     }
 
@@ -143,7 +175,8 @@ public class D_PlayerController : MonoBehaviour
         {
             return false;
         }
-        int count = rigidBody.Cast(
+
+        int count = _rigidBody.Cast(
             direction,
             _movementFilter,
             _castCollisions,
@@ -152,20 +185,21 @@ public class D_PlayerController : MonoBehaviour
         if (count == 0)
         {
             //change transform
-            rigidBody.MovePosition(rigidBody.position + direction * _moveSpeed * Time.deltaTime);
+            _rigidBody.MovePosition(_rigidBody.position + direction * _moveSpeed * Time.deltaTime);
             return true;
         }
+
         return false;
     }
 
 
-    private void LockMovement()
+    public void LockMovement()
     {
         _canMove = false;
     }
-    private void UnlockMovement()
+
+    public void UnlockMovement()
     {
         _canMove = true;
     }
 }
-
