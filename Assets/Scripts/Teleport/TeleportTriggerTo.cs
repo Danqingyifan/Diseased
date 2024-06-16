@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Fungus;
 
 public class TeleportTriggerTo : MonoBehaviour
 {
     [Tooltip("Enter the scene name")]
-    public string scene; // 目标场景名称
+    public string targetCanvas; // 目标场景Canvas
     [Tooltip("Assign a unique ID to this teleport")]
     public string teleportName; // 传送点的唯一ID
     
@@ -17,6 +18,8 @@ public class TeleportTriggerTo : MonoBehaviour
     public GameObject bubbleBackground; // 显示传送提示信息的背景
     public string hintMessage; // 提示信息内容
     private bool playerInRange; // 玩家是否在触发范围内
+    public Flowchart flowchart;
+    public GameObject TeleportFrom;//传送到的位置
 
     void Start()
     {
@@ -43,15 +46,9 @@ public class TeleportTriggerTo : MonoBehaviour
             //Debug.Log($"TeleportTriggerTo Update: areaTransitionName set to {teleportName}");
 
             // 跳转到指定场景
-            if (!string.IsNullOrEmpty(scene))
-            {
-                SceneManager.LoadScene(scene);
-                //Debug.Log($"TeleportTriggerTo Update: Scene {scene} loaded");
-            }
-            else
-            {
-                //Debug.LogError("Target scene name is not set!");
-            }
+            D_PlayerController.instance.transform.position = TeleportFrom.transform.position;
+            // 更新Fungus中的currentScene变量
+            flowchart.SetStringVariable("CurrentScene", targetCanvas);
         }
 
         // 场景切换的计时处理

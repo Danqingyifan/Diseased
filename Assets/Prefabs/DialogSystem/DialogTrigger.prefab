@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414286467861147477}
-  - component: {fileID: -6981743938335657814}
   - component: {fileID: -7591218927368669137}
+  - component: {fileID: 7957643426397156068}
   m_Layer: 0
   m_Name: DialogTrigger
   m_TagString: Untagged
@@ -27,27 +27,12 @@ Transform:
   m_GameObject: {fileID: 4854734757564371336}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.2625, z: 1}
+  m_LocalPosition: {x: 2.07, y: -0.59, z: -0.09087626}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6981743938335657814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4854734757564371336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51814530c01fda044b3436d592947c78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialog: {fileID: 11400000, guid: 91e4954a9fb15074196133414c43be28, type: 2}
-  dialogCanvasPrefab: {fileID: 2451996123488190798, guid: 241032225b452d240abeaa410e7857ad, type: 3}
-  mainCamera: {fileID: 4771636754693275740, guid: 458e689195b421942914733704100832, type: 3}
 --- !u!61 &-7591218927368669137
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -77,10 +62,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.5834602, y: 0.04739979}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -91,5 +76,22 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.1542647, y: 1.7750354}
   m_EdgeRadius: 0
+--- !u!114 &7957643426397156068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854734757564371336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ef81fbe028d14409d4d1247dbdc89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogHintText: {fileID: 0}
+  bubbleBackground: {fileID: 0}
+  hintMessage: "E:\u8FDB\u884C\u4EA4\u8C08"
+  flowchart: {fileID: 0}
+  blockName: "\u5927\u95E8\u524D\u7684\u5BF9\u8BDD"

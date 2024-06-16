@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu/GamebeginMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Level/Front yard.unity
+    path: Assets/Scenes/Level/MainScene.unity
     guid: 60d0ffb34bcbe6a4b885a7386deaafbf
   - enabled: 1
     path: Assets/Scenes/Level/Hall.unity
@@ -45,4 +45,4 @@ EditorBuildSettings:
     path: Assets/Scenes/Level/Storage Room.unity
     guid: c556ac8dcd28b0c498a5fb70b3a23d38
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 361a2028398183c459dc0ee014742e21, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 576e7e2425f472e40badac274a77a0ff, type: 2}
