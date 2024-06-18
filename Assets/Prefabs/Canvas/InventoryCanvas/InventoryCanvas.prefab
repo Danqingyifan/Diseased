@@ -388,6 +388,9 @@ MonoBehaviour:
   itemContainer: {fileID: 6160907186811909931}
   itemDescription: {fileID: 9175473701869775545}
   characterStats: {fileID: 4475737838506892397}
+  clickSound: {fileID: 8300000, guid: 91439a67a665ee647952a1af0a18a43d, type: 3}
+  useItemSound: {fileID: 8300000, guid: cb5e5fd2005084e4b85006f31d50f2ef, type: 3}
+  closeInventorySound: {fileID: 8300000, guid: b439f0705199c724a8b4f57e7377b404, type: 3}
 --- !u!1 &1939873432960319002
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +928,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 8283969447465636557}
   iconName: "\u5173\u95ED\u80CC\u5305"
+  hoverSound: {fileID: 0}
+  clickSound: {fileID: 0}
 --- !u!1 &5889243309491536480
 GameObject:
   m_ObjectHideFlags: 0

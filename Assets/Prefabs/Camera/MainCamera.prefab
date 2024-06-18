@@ -261,12 +261,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2887219766676954641}
+  - {fileID: 1733299041078415820}
   - {fileID: 6546682200234352733}
   - {fileID: 8668047361873341875}
   - {fileID: 7331425040476670539}
   - {fileID: 6827639666088169141}
-  - {fileID: 1733299041078415820}
+  - {fileID: 2887219766676954641}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &4771636754693275740
@@ -419,6 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryCanvasPrefab: {fileID: 1660388757953993665, guid: 4ef138829907ae243a32a8170bd2f4f9, type: 3}
+  closeInventorySound: {fileID: 0}
 --- !u!1 &3020107354899735220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1052,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tooltipText: {fileID: 4699256612280853006}
   iconName: OpenInventory
+  hoverSound: {fileID: 0}
+  clickSound: {fileID: 0}
 --- !u!1 &5138129121443707765
 GameObject:
   m_ObjectHideFlags: 0

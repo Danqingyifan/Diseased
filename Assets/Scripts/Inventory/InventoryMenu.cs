@@ -11,6 +11,10 @@ public class InventoryMenu : MonoBehaviour
     public TextMeshProUGUI itemDescription;  // 显示道具描述的文本
     public CharacterStats characterStats;    // 人物属性
 
+    public AudioClip clickSound;             // 点击音效
+    public AudioClip useItemSound;           // 使用道具音效
+    private AudioSource audioSource;         // 音频源
+
     private Items selectedItem;              // 当前选中的道具
 
     void Awake()
@@ -23,6 +27,13 @@ public class InventoryMenu : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+
+        // 获取或添加 AudioSource 组件
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -87,6 +98,7 @@ public class InventoryMenu : MonoBehaviour
         selectedItem = item;
         string itemTypeDescription = item.GetItemTypeDescription();
         itemDescription.text = $"【{item.itemName}】{itemTypeDescription}\n{item.itemDescription}\n数量: {item.quantity}";
+        PlaySound(clickSound);
     }
 
     // 装备道具
@@ -97,6 +109,7 @@ public class InventoryMenu : MonoBehaviour
             Transform equipmentImageTransform = equipmentSlot.Find("EquipmentImage");
             if (equipmentImageTransform != null)
             {
+                PlaySound(useItemSound);  // 播放使用道具音效
                 Image equipmentImage = equipmentImageTransform.GetComponent<Image>();
                 if (equipmentImage != null)
                 {
@@ -131,6 +144,7 @@ public class InventoryMenu : MonoBehaviour
             Transform equipmentImageTransform = eqSlot.Find("EquipmentImage");
             if (equipmentImageTransform != null)
             {
+                PlaySound(useItemSound);  // 播放使用道具音效
                 Image equipmentImage = equipmentImageTransform.GetComponent<Image>();
                 if (equipmentImage != null)
                 {
@@ -165,6 +179,8 @@ public class InventoryMenu : MonoBehaviour
             // 应用道具效果
             ApplyItemEffect(item);
             item.quantity--;  // 消耗一个道具
+            PlaySound(useItemSound);  // 播放使用道具音效
+
             if (item.quantity <= 0)
             {
                 DestroyItem(item);  // 道具数量为0时销毁道具
@@ -207,6 +223,7 @@ public class InventoryMenu : MonoBehaviour
             characterStats.UpdateStatDisplays();
         }
     }
+
     // 移除装备效果
     void RemoveEquipmentEffect(Items item)
     {
@@ -288,6 +305,15 @@ public class InventoryMenu : MonoBehaviour
         if (itemButton != null)
         {
             itemButton.onClick.RemoveAllListeners();
+        }
+    }
+
+    // 播放音效
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }

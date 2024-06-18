@@ -20,6 +20,8 @@ public class TeleportTriggerTo : MonoBehaviour
     private bool playerInRange; // 玩家是否在触发范围内
     public Flowchart flowchart;
     public GameObject TeleportFrom;//传送到的位置
+    public AudioClip teleportSound;          // 音效文件
+    private AudioSource audioSource;         // AudioSource 组件
 
     void Start()
     {
@@ -33,6 +35,14 @@ public class TeleportTriggerTo : MonoBehaviour
         if (bubbleBackground != null)
         {
             bubbleBackground.SetActive(false);
+        }
+        // 获取 AudioSource 组件
+        audioSource = GetComponent<AudioSource>();
+
+        // 如果 audioSource 组件不存在，则添加一个
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
     
@@ -48,7 +58,12 @@ public class TeleportTriggerTo : MonoBehaviour
             // 跳转到指定场景
             D_PlayerController.instance.transform.position = TeleportFrom.transform.position;
             // 更新Fungus中的currentScene变量
-            flowchart.SetStringVariable("CurrentScene", targetCanvas);
+            //flowchart.SetStringVariable("CurrentScene", targetCanvas);
+            // 播放音效
+            if (teleportSound != null)
+            {
+                audioSource.PlayOneShot(teleportSound);
+            }
         }
 
         // 场景切换的计时处理

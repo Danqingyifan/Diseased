@@ -3,7 +3,15 @@ guid: 8968a744242d30a4bab9f0e2f5d39561
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - closeButton: {instanceID: 0}
+  - equipmentSlot: {instanceID: 0}
+  - itemContainer: {instanceID: 0}
+  - itemDescription: {instanceID: 0}
+  - characterStats: {instanceID: 0}
+  - clickSound: {fileID: 8300000, guid: c18ae2c530c264a6880266d5e0a71337, type: 3}
+  - useItemSound: {fileID: 8300000, guid: cb5e5fd2005084e4b85006f31d50f2ef, type: 3}
+  - closeInventorySound: {fileID: 8300000, guid: b439f0705199c724a8b4f57e7377b404, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

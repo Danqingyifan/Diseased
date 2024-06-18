@@ -9,7 +9,7 @@ public class ActionButton : MonoBehaviour
     private GameObject Player;
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.FindGameObjectWithTag("Player_Battle");
 
         string name = gameObject.name;
         gameObject.GetComponent<Button>().onClick.AddListener(() => AttachCallBack(name));

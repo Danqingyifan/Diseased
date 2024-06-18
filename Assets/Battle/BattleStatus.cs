@@ -14,12 +14,12 @@ public class BattleStatus : MonoBehaviour
 
     private float health;
 
-    [SerializeField] private float baseAttackDamage;
+    [SerializeField] public float baseAttackDamage;
 
 
     //Resize Health Bar
-    [SerializeField] 
-    private GameObject healthBar;
+    [SerializeField]
+    private HealthBar healthBar;
 
     private void Awake()
     {
@@ -29,31 +29,32 @@ public class BattleStatus : MonoBehaviour
 
     void Start()
     {
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
-        //Find parent's Animator
-        
+        health = Mathf.Clamp(health, 0, maxHealth);
+        healthBar.SetHealth(health);
+        GetComponent<Animator>().Play("TakeDamage");
 
         if (health <= 0)
         {
             dead = true;
             GetComponent<Animator>().Play("Die");
-        }
-        else
-        {
-            Vector2 healthScale = healthBar.transform.localScale;
-            float newHealthScaleX = healthScale.x * (health/maxHealth);
-            healthBar.transform.localScale = new Vector2(newHealthScaleX, healthScale.y);
+            BattleManager.instance.EndBattle();
         }
     }
 
+    public bool getDead()
+    {
+        return dead;
+    }
 }

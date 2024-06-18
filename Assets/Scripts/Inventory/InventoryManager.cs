@@ -7,6 +7,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryCanvasPrefab; // 背包Canvas的预制体
 
     private GameObject inventoryCanvasInstance; // 当前生成的背包Canvas实例
+    public AudioClip closeInventorySound;     // 关闭背包音效
+    private AudioSource audioSource;          // 音频源
 
     void Awake()
     {
@@ -22,6 +24,12 @@ public class InventoryManager : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+        // 获取或添加 AudioSource 组件
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -39,7 +47,16 @@ public class InventoryManager : MonoBehaviour
     {
         if (inventoryCanvasInstance != null)
         {
+            PlaySound(closeInventorySound); // 播放关闭背包音效
             Destroy(inventoryCanvasInstance);
+        }
+    }
+    // 播放音效
+    void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }

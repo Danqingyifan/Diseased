@@ -54,6 +54,7 @@ public class D_CameraController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        gameObject.SetActive(true); // 确保 GameObject 活跃
         StartCoroutine(SetupCinemachineVirtualCameraWithDelay());
     }
 

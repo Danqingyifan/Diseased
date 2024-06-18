@@ -6,6 +6,9 @@ public class IconController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public TextMeshProUGUI tooltipText; // 提示文本
     public string iconName; // 图标的名称
+    public AudioClip hoverSound; // 鼠标悬停音效
+    public AudioClip clickSound; // 鼠标点击音效
+    private AudioSource audioSource; // 音频源
 
     void Start()
     {
@@ -14,14 +17,25 @@ public class IconController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             tooltipText.gameObject.SetActive(false);
         }
+
+        // 获取或添加 AudioSource 组件
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // 鼠标移动到图标后才显示提示文本
+        // 显示提示文本并播放悬停音效
         if (tooltipText != null)
         {
             tooltipText.gameObject.SetActive(true);
+        }
+        if (hoverSound != null)
+        {
+            audioSource.PlayOneShot(hoverSound);
         }
     }
 
@@ -36,7 +50,11 @@ public class IconController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 通知图标管理器打开对应的界面
+        // 播放点击音效并通知图标管理器打开对应的界面
+        if (clickSound != null)
+        {
+            audioSource.PlayOneShot(clickSound);
+        }
         IconManager.instance.OpenIconPanel(iconName);
     }
 }
