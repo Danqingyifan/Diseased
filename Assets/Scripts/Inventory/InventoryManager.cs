@@ -4,11 +4,9 @@ public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance; // 单例实例
 
-    public GameObject inventoryCanvasPrefab; // 背包Canvas的预制体
-
-    private GameObject inventoryCanvasInstance; // 当前生成的背包Canvas实例
-    public AudioClip closeInventorySound;     // 关闭背包音效
-    private AudioSource audioSource;          // 音频源
+    public GameObject inventoryCanvas; // 背包Canvas实例
+    public AudioClip closeInventorySound; // 关闭背包音效
+    private AudioSource audioSource; // 音频源
 
     void Awake()
     {
@@ -16,7 +14,7 @@ public class InventoryManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -33,24 +31,35 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // 生成背包Canvas
+    // 显示背包Canvas
     public void ShowInventory()
     {
-        if (inventoryCanvasPrefab != null && inventoryCanvasInstance == null)
+        //Debug.Log("ShowInventory called");
+        if (inventoryCanvas != null)
         {
-            inventoryCanvasInstance = Instantiate(inventoryCanvasPrefab);
+            //Debug.Log("Using existing inventory canvas instance");
+            Canvas canvas = inventoryCanvas.GetComponent<Canvas>();
+            if (canvas != null)
+            {
+                canvas.sortingLayerName = "Inventory";
+            }
         }
     }
 
-    // 销毁背包Canvas
+    // 隐藏背包Canvas
     public void HideInventory()
     {
-        if (inventoryCanvasInstance != null)
+        if (inventoryCanvas != null)
         {
+            Canvas canvas = inventoryCanvas.GetComponent<Canvas>();
+            if (canvas != null)
+            {
+                canvas.sortingLayerName = "Default"; // 恢复默认的sorting layer
+            }
             PlaySound(closeInventorySound); // 播放关闭背包音效
-            Destroy(inventoryCanvasInstance);
         }
     }
+
     // 播放音效
     void PlaySound(AudioClip clip)
     {

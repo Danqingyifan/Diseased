@@ -73,7 +73,7 @@ public class D_PlayerController : MonoBehaviour
         _animator = this.gameObject.GetComponent<Animator>();
         _spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         _moveCollider = this.gameObject.GetComponent<BoxCollider2D>();
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update

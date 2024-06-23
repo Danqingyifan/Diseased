@@ -10,6 +10,7 @@ public class InventoryMenu : MonoBehaviour
     public Transform itemContainer;          // 存放道具的容器
     public TextMeshProUGUI itemDescription;  // 显示道具描述的文本
     public CharacterStats characterStats;    // 人物属性
+    public GameObject inventoryCanvas;       // 背包画布
 
     public AudioClip clickSound;             // 点击音效
     public AudioClip useItemSound;           // 使用道具音效
@@ -40,16 +41,6 @@ public class InventoryMenu : MonoBehaviour
     void Start()
     {
         closeButton.onClick.AddListener(CloseInventory);  // 为关闭按钮添加点击事件
-        AddItemToInventory("拳套", 1);                     // 添加测试道具
-        AddItemToInventory("对乙酰氨基酚", 1);
-        AddItemToInventory("创口贴", 5);
-        AddItemToInventory("粉笔", 5);
-        AddItemToInventory("魏雪宁的眼镜", 1);
-        AddItemToInventory("布洛芬", 3);
-        AddItemToInventory("面粉袋", 2);
-        AddItemToInventory("许娇的怀表", 1);
-        AddItemToInventory("铁丝", 1);
-        AddItemToInventory("煤油", 1);
     }
 
     // 关闭背包界面
@@ -61,6 +52,7 @@ public class InventoryMenu : MonoBehaviour
     // 将道具添加到背包
     public void AddItemToInventory(string itemName, int quantity)
     {
+        
         Items item = ItemDatabase.instance.GetItemByName(itemName);  // 从数据库获取道具
         if (item != null)
         {
@@ -90,6 +82,26 @@ public class InventoryMenu : MonoBehaviour
                 }
             }
         }
+        
+    }
+
+    void Update()
+    {
+        // 检查所有道具槽的按钮并绑定点击事件（防止事件丢失）
+        foreach (Transform slot in itemContainer)
+        {
+            ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+            if (itemSlot != null && itemSlot.GetItem() != null)
+            {
+                Button itemButton = slot.GetComponent<Button>();
+                if (itemButton != null && itemButton.onClick.GetPersistentEventCount() == 0)
+                {
+                    itemButton.onClick.RemoveAllListeners();
+                    itemButton.onClick.AddListener(() => OnItemClick(itemSlot.GetItem()));
+                }
+            }
+        }
+        
     }
 
     // 左键点击道具事件

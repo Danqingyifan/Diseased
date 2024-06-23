@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: MainCamera
-  m_TagString: MainCamera
+  m_TagString: Camere
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -581,7 +581,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 69e8fc4063f11f647baf328c1dc789e0, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 66facfb134dd7d44294908051aed61cb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -796,7 +796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 35ff214fbd12e164aa10e6c4017df67c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 168c06770c1e7334998fd2ed6db3e729, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -879,14 +879,14 @@ RectTransform:
   m_GameObject: {fileID: 1545511533}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8182182, y: 4.0910907, z: 0.8182182}
+  m_LocalScale: {x: 1, y: 5, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 876062427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -72}
+  m_AnchoredPosition: {x: 1, y: -150}
   m_SizeDelta: {x: 171.1981, y: 33.3594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545511535

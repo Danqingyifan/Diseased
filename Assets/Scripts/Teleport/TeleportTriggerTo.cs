@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -23,9 +25,10 @@ public class TeleportTriggerTo : MonoBehaviour
     public AudioClip teleportSound;          // 音效文件
     private AudioSource audioSource;         // AudioSource 组件
 
+    private ScreenFade screenFade; // ScreenFade组件的引用
+
     void Start()
     {
-        
         // 确保提示文本初始状态为隐藏
         if (teleportHintText != null)
         {
@@ -44,6 +47,9 @@ public class TeleportTriggerTo : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
+
+        // 获取ScreenFade组件
+        screenFade = FindObjectOfType<ScreenFade>();
     }
     
     void Update()
@@ -55,15 +61,7 @@ public class TeleportTriggerTo : MonoBehaviour
             D_PlayerController.instance.areaTransitionName = teleportName;
             //Debug.Log($"TeleportTriggerTo Update: areaTransitionName set to {teleportName}");
 
-            // 跳转到指定场景
-            D_PlayerController.instance.transform.position = TeleportFrom.transform.position;
-            // 更新Fungus中的currentScene变量
-            //flowchart.SetStringVariable("CurrentScene", targetCanvas);
-            // 播放音效
-            if (teleportSound != null)
-            {
-                audioSource.PlayOneShot(teleportSound);
-            }
+            StartCoroutine(TeleportWithFade());
         }
 
         // 场景切换的计时处理
@@ -75,6 +73,29 @@ public class TeleportTriggerTo : MonoBehaviour
                 openScene = false;
             }
         }
+    }
+
+    private IEnumerator TeleportWithFade()
+    {
+
+        // 开始淡入效果
+        yield return StartCoroutine(screenFade.FadeIn());
+        // 执行传送操作
+        D_PlayerController.instance.transform.position = TeleportFrom.transform.position;
+
+        // 播放音效
+        if (teleportSound != null)
+        {
+            audioSource.PlayOneShot(teleportSound);
+        }
+
+        // 短暂等待，确保传送位置已更新
+        yield return new WaitForSeconds(0.50f);
+
+        // 开始淡出效果
+        yield return StartCoroutine(screenFade.FadeOut());
+
+        openScene = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

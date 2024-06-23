@@ -5,9 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Laser
-  - Enemy
   - Teleport
   - Player_Battle
+  - Hall
+  - Confinement
+  - Enemy_Battle
+  - room13
+  - Enemy
+  - Storage
+  - FungusManager
+  - Camere
   layers:
   - Default
   - TransparentFX
@@ -45,6 +52,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: MainMenu
+    uniqueID: 265981373
+    locked: 0
   - name: Player
     uniqueID: 2177760739
+    locked: 0
+  - name: ScreenFade
+    uniqueID: 3832040685
+    locked: 0
+  - name: Inventory
+    uniqueID: 2307018307
     locked: 0
