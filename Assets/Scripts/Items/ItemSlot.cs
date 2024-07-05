@@ -9,6 +9,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     public Button contextButton;   // 菜单按钮
     public TextMeshProUGUI contextButtonText; // 菜单按钮文本
     private Items item;            // 当前道具
+    private bool isBattle = false;         // 是否处于战斗状态
 
     void Start()
     {
@@ -36,11 +37,20 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
             {
                 contextButtonText.text = "装备";
             }
-            else
+            if(item.itemType == ItemType.Consumable && !isBattle)
+            {
+                contextButtonText.text = "使用";
+            }
+            if(item.itemType == ItemType.BattleConsumable && isBattle)
             {
                 contextButtonText.text = "使用";
             }
         }
+    }
+    // 设置战斗状态
+    public void SetBattleState(bool battleState)
+    {
+        isBattle = battleState;
     }
     
     // 获取当前道具
@@ -63,8 +73,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler
     {
         if (contextMenu != null && item != null)
         {
-            // 切换右键菜单的显示状态
-            contextMenu.SetActive(!contextMenu.activeSelf);
+            if (item.itemType != ItemType.Quest)
+            {
+                if (item.itemType == ItemType.Consumable && !isBattle ||
+                    item.itemType == ItemType.BattleConsumable && isBattle ||
+                    item.itemType == ItemType.Equipment)
+                {
+                    // 切换右键菜单的显示状态
+                    contextMenu.SetActive(!contextMenu.activeSelf);
+                }
+            }
+            
         }
     }
 

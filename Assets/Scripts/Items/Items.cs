@@ -4,8 +4,9 @@ using UnityEngine;
 public enum ItemType
 {
     Equipment,     // 装备类道具
-    Consumable,    // 消耗性道具
-    NonConsumable  // 非消耗性道具
+    Consumable,    // 消耗类道具
+    Quest,  // 任务类道具
+    BattleConsumable  //战斗消耗类道具
 }
 
 // 定义道具类
@@ -24,11 +25,15 @@ public class Items
         switch (itemType)
         {
             case ItemType.Consumable:
-                return "<消耗型道具>";
+                return "<消耗类道具>";
             case ItemType.Equipment:
-                return "<装备型道具>";
+                return "<装备类道具>";
+            case ItemType.Quest:
+                return "<任务类道具>";
+            case ItemType.BattleConsumable:
+                return "<战斗消耗类道具>";
             default:
-                return "<非消耗型道具>";
+                return null;
         }
     }
 }

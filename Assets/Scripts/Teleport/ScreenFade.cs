@@ -40,4 +40,25 @@ public class ScreenFade : MonoBehaviour
             yield return null;
         }
     }
+    public IEnumerator FadeIn1(float duration)
+    {
+        float elapsedTime = 0f;
+        Color color = fadeImage.color;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            color.a = Mathf.Clamp01(elapsedTime / duration);
+            fadeImage.color = color;
+            yield return null;
+        }
+        // 确保最终的透明度为完全不透明
+        color.a = 1;
+        fadeImage.color = color;
+    }
+    // 添加一个公共函数来启动淡入过程
+    public void StartFadeIn(float duration)
+    {
+        StartCoroutine(FadeIn1(duration));
+    }
 }

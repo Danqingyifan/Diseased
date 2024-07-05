@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 882fda14a454544f4a2d0e6a83ef6e78, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5568f4a3ba562f043bb76b8a00b73819, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -78,7 +78,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d6b528661a90e215e92eefc2813232f0, type: 2}
+  m_Motion: {fileID: 7400000, guid: a0b67144cde431649894d94aaecc94d4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -90,7 +90,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy
+  m_Name: ZhaoJun
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
@@ -171,7 +171,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 216d2c8adcaa83fd19e7726de075544a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8dc6b825ebaefbf498bc118c973b5ecf, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -197,7 +197,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4de52050a5afe0e449c9961607409048, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3c6a06db62c6ba14d916f8a323f35688, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

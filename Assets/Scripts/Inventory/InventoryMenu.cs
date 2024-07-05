@@ -52,37 +52,54 @@ public class InventoryMenu : MonoBehaviour
     // 将道具添加到背包
     public void AddItemToInventory(string itemName, int quantity)
     {
-        
         Items item = ItemDatabase.instance.GetItemByName(itemName);  // 从数据库获取道具
         if (item != null)
         {
-            item.quantity = quantity;  // 设置道具数量
+            bool itemAdded = false;
+
+            // 检查背包中是否已有同类道具
             foreach (Transform slot in itemContainer)
             {
-                Image itemImage = slot.Find("ItemImage").GetComponent<Image>();
-                TextMeshProUGUI quantityText = slot.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-
-                if (itemImage.sprite == null) // 找到一个空的道具格子
+                ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                if (itemSlot != null && itemSlot.GetItem() != null && itemSlot.GetItem().itemName == itemName)
                 {
-                    itemImage.sprite = item.itemIcon;  // 设置道具图标
-                    quantityText.text = item.quantity.ToString();  // 显示道具数量
-                    itemImage.color = new Color(1f, 1f, 1f, 1f);// 设置ItemImage的不透明度
-                    Button itemButton = slot.GetComponent<Button>();
-                    itemButton.onClick.RemoveAllListeners();
-                    itemButton.onClick.AddListener(() => OnItemClick(item));  // 为道具添加左键点击事件
-
-                    // 获取 ItemSlot 组件并设置道具
-                    ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-                    if (itemSlot != null)
-                    {
-                        itemSlot.SetItem(item);
-                    }
-
+                    itemSlot.GetItem().quantity += quantity;  // 增加已有道具的数量
+                    UpdateItemQuantityDisplay(itemSlot.GetItem());
+                    itemAdded = true;
                     break;
                 }
             }
+
+            // 如果背包中没有同类道具，则添加到空格子中
+            if (!itemAdded)
+            {
+                foreach (Transform slot in itemContainer)
+                {
+                    Image itemImage = slot.Find("ItemImage").GetComponent<Image>();
+                    TextMeshProUGUI quantityText = slot.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+
+                    if (itemImage.sprite == null) // 找到一个空的道具格子
+                    {
+                        item.quantity = quantity;  // 只有在新加入道具时设置数量
+                        itemImage.sprite = item.itemIcon;  // 设置道具图标
+                        quantityText.text = item.quantity.ToString();  // 显示道具数量
+                        itemImage.color = new Color(1f, 1f, 1f, 1f); // 设置ItemImage的不透明度
+                        Button itemButton = slot.GetComponent<Button>();
+                        itemButton.onClick.RemoveAllListeners();
+                        itemButton.onClick.AddListener(() => OnItemClick(item));  // 为道具添加左键点击事件
+
+                        // 获取 ItemSlot 组件并设置道具
+                        ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
+                        if (itemSlot != null)
+                        {
+                            itemSlot.SetItem(item);
+                        }
+
+                        break;
+                    }
+                }
+            }
         }
-        
     }
 
     void Update()
@@ -101,7 +118,6 @@ public class InventoryMenu : MonoBehaviour
                 }
             }
         }
-        
     }
 
     // 左键点击道具事件
@@ -121,20 +137,23 @@ public class InventoryMenu : MonoBehaviour
             Transform equipmentImageTransform = equipmentSlot.Find("EquipmentImage");
             if (equipmentImageTransform != null)
             {
-                PlaySound(useItemSound);  // 播放使用道具音效
                 Image equipmentImage = equipmentImageTransform.GetComponent<Image>();
-                if (equipmentImage != null)
+                EquipmentSlot eqSlot = equipmentSlot.GetComponent<EquipmentSlot>();
+
+                // 检查装备格子是否为空
+                if (equipmentImage.sprite == null || eqSlot.GetEquippedItem() == null)
                 {
+                    PlaySound(useItemSound);  // 播放使用道具音效
+                    equipmentImage.sprite = item.itemIcon;  // 设置装备栏图标
+                    equipmentImage.color = new Color(1f, 1f, 1f, 1f); // 设置equipmentImage的不透明度
+
                     // 检查装备类型并应用相应属性增益
                     ApplyEquipmentEffect(item);
-                    equipmentImage.sprite = item.itemIcon;  // 设置装备栏图标
-                    equipmentImage.color = new Color(1f, 1f, 1f, 1f);// 设置equipmentImage的不透明度
                     string itemTypeDescription = item.GetItemTypeDescription();
                     itemDescription.text = $"【{item.itemName}】{itemTypeDescription}\n{item.itemDescription}\n数量: {item.quantity}";  // 更新描述
                     DestroyItemFromSlot(itemSlot);  // 从原来的道具栏销毁该装备
 
                     // 更新装备槽中的道具
-                    EquipmentSlot eqSlot = equipmentSlot.GetComponent<EquipmentSlot>();
                     if (eqSlot != null)
                     {
                         eqSlot.SetEquippedItem(item);
@@ -142,6 +161,11 @@ public class InventoryMenu : MonoBehaviour
 
                     // 清除原本道具格子中的道具引用
                     ClearSlot(itemSlot);
+                }
+                else
+                {
+                    // 提示装备格子已满
+                    Debug.Log("装备格子已满，请先移除当前装备。");
                 }
             }
         }
@@ -164,7 +188,7 @@ public class InventoryMenu : MonoBehaviour
                     RemoveEquipmentEffect(item);
 
                     equipmentImage.sprite = null;
-                    equipmentImage.color = new Color(0f, 0f, 0f, 0f);// 设置equipmentImage的不透明度
+                    equipmentImage.color = new Color(0f, 0f, 0f, 0f); // 设置equipmentImage的不透明度
                 }
             }
 
@@ -204,6 +228,25 @@ public class InventoryMenu : MonoBehaviour
                 string itemTypeDescription = item.GetItemTypeDescription();
                 itemDescription.text = $"【{item.itemName}】{itemTypeDescription}\n{item.itemDescription}\n数量: {item.quantity}";
             }
+        }
+        else if (item.itemType == ItemType.BattleConsumable)
+        {
+            // 应用道具效果
+            ApplyItemEffect(item);
+            item.quantity--;  // 消耗一个道具
+            if (item.quantity <= 0)
+            {
+                DestroyItem(item);  // 道具数量为0时销毁道具
+            }
+            else
+            {
+                // 更新道具数量显示
+                UpdateItemQuantityDisplay(item);
+                string itemTypeDescription = item.GetItemTypeDescription();
+                itemDescription.text = $"【{item.itemName}】{itemTypeDescription}\n{item.itemDescription}\n数量: {item.quantity}";
+            }
+            InventoryManager.instance.HideInventory();
+            GameEvents.RaiseUseBattleItem(item.itemName);
         }
         // 如果是非消耗性道具，添加相应的使用逻辑
     }
@@ -295,7 +338,7 @@ public class InventoryMenu : MonoBehaviour
         if (itemImage != null)
         {
             itemImage.sprite = null;
-            itemImage.color = new Color(0f, 0f, 0f, 0f);// 设置ItemImage的不透明度
+            itemImage.color = new Color(0f, 0f, 0f, 0f); // 设置ItemImage的不透明度
         }
 
         TextMeshProUGUI quantityText = slot.Find("QuantityText").GetComponent<TextMeshProUGUI>();

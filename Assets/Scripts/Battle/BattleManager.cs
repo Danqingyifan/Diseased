@@ -7,7 +7,9 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     public AudioSource audioSource;
-    private List<BattleStatus> battleStatuses;
+    public List<BattleStatus> battleStatuses;
+
+    public BattleInfoManager battleInfoManager;
 
     private GameObject player;
     private GameObject enemy;
@@ -15,7 +17,8 @@ public class BattleManager : MonoBehaviour
     public GameObject ActionMenu;
     public GameObject EndBattleButton; // 结束战斗按钮
     public Flowchart flowchart; // 引用 Fungus Flowchart
-    public string blockName = "战斗结束"; // 要调用的块的名称
+    public string winBlockName;
+    public string loseBlockName;
 
 
     private void Awake()
@@ -25,22 +28,18 @@ public class BattleManager : MonoBehaviour
             instance = this;
             //DontDestroyOnLoad(gameObject);
         }
-        else
+        /*else
         {
-            if (instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
+           // if (instance != this)
+            //{
+              //  Destroy(gameObject);
+            //}
+        }*/
     }
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player_Battle");
-        enemy = GameObject.FindGameObjectWithTag("Enemy_Battle");
 
-        battleStatuses = new List<BattleStatus>();
-        EndBattleButton.SetActive(false); // 初始化时隐藏结束按钮
     }
 
     void Update()
@@ -56,7 +55,46 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player_Battle");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy_Battle");
+        GameObject[] battleManagers = GameObject.FindGameObjectsWithTag("BattleManager");
+        // 过滤出激活的玩家对象
+        foreach (GameObject _player in players)
+        {
+            if (_player.activeInHierarchy)
+            {
+                player = _player;
+            }
+        }
+
+        // 过滤出激活的敌人对象
+        foreach (GameObject _enemy in enemies)
+        {
+            if (_enemy.activeInHierarchy)
+            {
+                enemy = _enemy;
+            }
+        }
+
+        foreach (GameObject _battleManager in battleManagers)
+        {
+            if (_battleManager.activeInHierarchy)
+            {
+                instance = _battleManager.GetComponent<BattleManager>();
+            }
+        }
+
+        battleStatuses = new List<BattleStatus>();
+        EndBattleButton.SetActive(false); // 初始化时隐藏结束按钮
+
+        player.GetComponent<BattleStatus>().initBattleStatus();
+        enemy.GetComponent<BattleStatus>().initBattleStatus();
+
+        player.GetComponent<BattleStatus>().healthBar.SetMaxHealth(player.GetComponent<BattleStatus>().maxHealth);
+        player.GetComponent<BattleStatus>().healthBar.SetHealth(player.GetComponent<BattleStatus>().health);   
+        
         battleStatuses.Add(player.GetComponent<BattleStatus>());
+        
         audioSource.Play();
         ActionMenu.SetActive(false);
         NextTurn();
@@ -67,6 +105,7 @@ public class BattleManager : MonoBehaviour
         ActionMenu.SetActive(false);
         //StartCoroutine(DestroySceneAfterDelay());
         EndBattleButton.SetActive(true); // 显示结束按钮
+        player.GetComponent<BattleStatus>().ApplyPlayerCharacterStats();
     }
 
     public void NextTurn()
@@ -81,7 +120,7 @@ public class BattleManager : MonoBehaviour
                 if (!enemy.GetComponent<BattleStatus>().getDead())
                 {
                     ActionMenu.SetActive(true);
-                    BattleInfoManager.instance.UpdateBattleInfoText(BattleInfoTextType.TIPS, 0, player.name, player.name);
+                    battleInfoManager.UpdateBattleInfoText(BattleInfoTextType.TIPS, 0, player.name, player.name);
                     battleStatuses.Add(enemy.GetComponent<BattleStatus>());
                 }
             }
@@ -90,7 +129,7 @@ public class BattleManager : MonoBehaviour
                 if (!player.GetComponent<BattleStatus>().getDead())
                 {
                     currentUnit.GetComponent<EnemyAI>().PerformAIAction();
-                    BattleInfoManager.instance.UpdateBattleInfoText(BattleInfoTextType.TIPS, 0, enemy.name, enemy.name);
+                    battleInfoManager.UpdateBattleInfoText(BattleInfoTextType.TIPS, 0, enemy.name, enemy.name);
                     battleStatuses.Add(player.GetComponent<BattleStatus>());
                 }
             }
@@ -110,7 +149,13 @@ public class BattleManager : MonoBehaviour
         // 调用 Fungus 块
         if (flowchart != null)
         {
-            flowchart.ExecuteBlock(blockName);
+            if(player.GetComponent<BattleStatus>().getDead() == true)
+            {
+                flowchart.ExecuteBlock(loseBlockName);
+            }else
+            {
+                flowchart.ExecuteBlock(winBlockName);
+            }
         }
     }
     /*IEnumerator DestroySceneAfterDelay()
@@ -132,4 +177,11 @@ public class BattleManager : MonoBehaviour
         yield return new WaitForSeconds(delayInSeconds);
         NextTurn();
     }
+
+    public GameObject GetPlayer()
+    {
+        return player;
+    }
+
+
 }

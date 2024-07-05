@@ -4,38 +4,25 @@ using UnityEngine;
 
 public class SoundFXManager : MonoBehaviour
 {
-    public AudioClip[] sounds; // ´æ·Å²»Í¬ÒôĞ§µÄÊı×é
+    public AudioClip[] sounds; // å­˜æ”¾ä¸åŒéŸ³æ•ˆçš„æ•°ç»„
     private AudioSource audioSource;
-
-    public static SoundFXManager instance;
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            if (instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
+
     }
     void Start()
-    {
+    {   
         audioSource = GetComponent<AudioSource>();
     }
 
-    // ²¥·ÅÖ¸¶¨Ë÷ÒıµÄÒôĞ§
+    // æ’­æ”¾æŒ‡å®šç´¢å¼•çš„éŸ³æ•ˆ
     public void PlaySound(int index)
     {
         if (index < sounds.Length)
         {
-            audioSource.clip = sounds[index]; // ÉèÖÃµ±Ç°ÒôĞ§
-            audioSource.Play(); // ²¥·ÅÒôĞ§
+            audioSource.clip = sounds[index]; // è®¾ç½®å½“å‰éŸ³æ•ˆ
+            audioSource.Play(); // æ’­æ”¾éŸ³æ•ˆ
         }
         else
         {

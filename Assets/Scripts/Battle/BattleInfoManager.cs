@@ -10,7 +10,8 @@ public enum BattleInfoTextType
     HEAL,
     FLEE,
     TIPS,
-    BATTLEEND
+    BATTLEEND,
+    USEITEM
 }
 public class BattleInfoManager : MonoBehaviour
 {
@@ -22,28 +23,35 @@ public class BattleInfoManager : MonoBehaviour
 
     public TextMeshProUGUI battleInfoText;
 
-    public static BattleInfoManager instance;
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            //DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            if (instance != this)
-            {
-                Destroy(gameObject);
-            }
-        }
 
     }
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player_Battle");
-        enemy = GameObject.FindGameObjectWithTag("Enemy_Battle");
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player_Battle");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy_Battle");
+
+        GameObject player = null;
+        GameObject enemy = null;
+
+        foreach (GameObject _player in players)
+        {
+            if (_player.activeInHierarchy)
+            {
+                player = _player;
+            }
+        }
+
+        foreach (GameObject _enemy in enemies)
+        {
+            if (_enemy.activeInHierarchy)
+            {
+                enemy = _enemy;
+            }
+        }
+        
         playerStatus = player.GetComponent<BattleStatus>();
         enemyStatus = enemy.GetComponent<BattleStatus>();
     }
@@ -66,6 +74,9 @@ public class BattleInfoManager : MonoBehaviour
                 break;
             case BattleInfoTextType.BATTLEEND:
                 battleInfoText.text = "战斗结束！" + instigatorName + "击败了" + victimName + "！";
+                break;
+            case BattleInfoTextType.USEITEM:
+                battleInfoText.text = instigatorName + "使用了" + victimName + "。";
                 break;
             default:
                 break;

@@ -1,15 +1,16 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class CharacterStats : MonoBehaviour
 {
     [Header("Attributes")]
-    [SerializeField] private int maxHealth = 100;
-    [SerializeField] private int maxStamina = 100;
-    [SerializeField] private int health;
-    [SerializeField] private int stamina;
-    [SerializeField] private int attack;
-    [SerializeField] private int defense;
+    [SerializeField] public int maxHealth = 100;
+    [SerializeField] public int maxStamina = 100;
+    [SerializeField] public int health;
+    [SerializeField] public int stamina;
+    [SerializeField] public int attack;
+    [SerializeField] public int defense;
 
     [Header("UI Texts")]
     public TextMeshProUGUI healthText;
@@ -43,12 +44,20 @@ public class CharacterStats : MonoBehaviour
     public void ModifyAttack(int amount)
     {
         attack += amount;
+        if (BattleManager.instance.GetPlayer() != null)
+        {
+            BattleManager.instance.GetPlayer().GetComponent<BattleStatus>().baseAttackDamage += amount;
+        }
         UpdateStatDisplays();
     }
 
     public void ModifyDefense(int amount)
     {
         defense += amount;
+        if (BattleManager.instance.GetPlayer() != null)
+        {
+            BattleManager.instance.GetPlayer().GetComponent<BattleStatus>().baseDefense += amount;
+        }
         UpdateStatDisplays();
     }
 

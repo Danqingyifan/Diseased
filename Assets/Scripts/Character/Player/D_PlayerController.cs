@@ -21,7 +21,7 @@ public class D_PlayerController : MonoBehaviour
 {
     public static D_PlayerController instance;
 
-    private Orientation _orientation;
+    public Orientation _orientation;
     private Rigidbody2D _rigidBody;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -79,7 +79,7 @@ public class D_PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
 
